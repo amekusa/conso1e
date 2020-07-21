@@ -1,6 +1,6 @@
 {
   "name": "conso1e",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "console wrapper + extra features",
   "files": [
     "src",
