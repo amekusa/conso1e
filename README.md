@@ -47,54 +47,72 @@ const console = Conso1e.create(); // Local instance
 const console = Conso1e.global(); // Global instance
 ```
 
-## Methods
+## Methods & Properties
 
 ### .suppress ( buffer = false )
 
 Starts suppression. During suppression, any method calls don't output to the console.  
 Suppression can be bypassed by prefixing methods with underscore (ex. `console.log()` → `console._log()` ).
 
-*@param {boolean}* ***buffer:***  
-	If true, suppressed calls will be buffered
+- *@param {boolean}* ***buffer***
+	- If true, suppressed calls will be buffered
+- *@return*
+	- The object itself
+
+---
 
 ### .unsuppress ( flush = true )
 
 Ends suppression.
 
-*@param {boolean}* ***flush:***  
-	If true, all the buffered calls are sent to the console
+- *@param {boolean}* ***flush***
+	- If true, all the buffered calls are sent to the console
+- *@return*
+	- The object itself
+
+---
 
 ### .flush ( )
 
 Outputs and clears the current buffers
 
+---
+
 ### .clearBuffers ( )
 
 Clears the current buffers without output
 
-## Properties
+---
 
-### .raw
+### .core
 
 Real `console` object
 
-*@type* ***object***
+- *@type* ***object***
+
+---
 
 ### .isSuppressed
 
 Whether suppression is currently active, or not
 
-*@type* ***boolean***
+- *@type* ***boolean***
+
+---
 
 ### .isBuffering
 
 Whether buffering is currently active, or not
 
-*@type* ***boolean***
+- *@type* ***boolean***
+
+---
 
 ### .hasBuffer
 
 Whether the console has any buffered call
+
+- *@type* ***boolean***
 
 ## Advanced Usage
 
