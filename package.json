@@ -1,0 +1,30 @@
+{
+  "name": "conso1e",
+  "version": "1.0.0",
+  "description": "console wrapper + extra features",
+  "files": [
+    "src",
+    "bundle.js"
+  ],
+  "exports": {
+    "import": "./src/Logger.js",
+    "require": "./bundle.js"
+  },
+  "scripts": {
+    "devtools": "npm i --no-save rollup mocha npm-watch",
+    "watch": "npm-watch",
+    "test": "mocha",
+    "build": "rollup src/Logger.js --file bundle.js --format umd --name conso1e",
+    "prepublish": "npm run test && npm run build"
+  },
+  "watch": {
+    "build": "src/*.js"
+  },
+  "keywords": [
+    "console",
+    "suppress",
+    "buffer"
+  ],
+  "author": "amekusa (https://amekusa.com)",
+  "license": "ISC"
+}
