@@ -25,7 +25,7 @@ console.log('Hello');
 Instead of creating a local instance, you can also use `global()` to access the **global instance**:
 
 ```js
-const console = require('console').global();
+const console = require('conso1e').global();
 ```
 
 `global()` always returns the same instance. In other words, it returns **singleton**.  
@@ -85,4 +85,3 @@ Whether the console has any buffered call
 ---
 
 &copy; 2020 [amekusa](https://amekusa.com)
-
