@@ -1,6 +1,6 @@
 {
   "name": "conso1e",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "console wrapper + extra features",
   "files": [
     "src",
@@ -21,8 +21,8 @@
     "build": "src/*.js"
   },
   "repository": {
-    "type" : "git",
-    "url" : "git+https://github.com/amekusa/conso1e.git"
+    "type": "git",
+    "url": "git+https://github.com/amekusa/conso1e.git"
   },
   "keywords": [
     "console",
