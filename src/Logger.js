@@ -9,8 +9,8 @@ const modes = {
  * @author amekusa.com
  */
 class Logger {
-	constructor(core = null) {
-		this._core = core || console;
+	constructor(...args) {
+		this._core = args.length ? new console.Console(...args) : console;
 		this._mode = modes.NORMAL;
 		this.clearBuffers();
 	}
@@ -95,6 +95,13 @@ Logger.global = function () {
 
 Logger.create = function (...args) {
 	return new Logger(...args);
+}
+
+Logger.wrap = function (core) {
+	if (typeof core != 'object') throw new Error('Invalid Argument');
+	const r = new Logger();
+	r._core = core;
+	return r;
 }
 
 export default Logger;
