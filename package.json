@@ -20,11 +20,19 @@
   "watch": {
     "build": "src/*.js"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "git+https://github.com/amekusa/conso1e.git"
+  },
   "keywords": [
     "console",
     "suppress",
     "buffer"
   ],
   "author": "amekusa (https://amekusa.com)",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amekusa/conso1e/issues"
+  },
+  "homepage": "https://github.com/amekusa/conso1e#readme"
 }
