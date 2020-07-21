@@ -15,12 +15,13 @@
 	 * @author amekusa.com
 	 */
 	class Logger {
-		constructor() {
+		constructor(...args) {
+			this._core = args.length ? new console.Console(...args) : console;
 			this._mode = modes.NORMAL;
 			this.clearBuffers();
 		}
-		get raw() {
-			return console;
+		get core() {
+			return this._core;
 		}
 		get isNormal() {
 			return this._mode == modes.NORMAL;
@@ -78,7 +79,7 @@
 			return this;
 		}
 		_do(method, ...args) {
-			console[method](...args);
+			this._core[method](...args);
 			return this;
 		}
 	}
@@ -98,8 +99,15 @@
 		return instance;
 	};
 
-	Logger.create = function () {
-		return new Logger();
+	Logger.create = function (...args) {
+		return new Logger(...args);
+	};
+
+	Logger.wrap = function (core) {
+		if (typeof core != 'object') throw new Error('Invalid Argument');
+		const r = new Logger();
+		r._core = core;
+		return r;
 	};
 
 	return Logger;
