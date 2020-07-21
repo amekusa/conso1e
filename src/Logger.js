@@ -9,12 +9,13 @@ const modes = {
  * @author amekusa.com
  */
 class Logger {
-	constructor() {
+	constructor(core = null) {
+		this._core = core || console;
 		this._mode = modes.NORMAL;
 		this.clearBuffers();
 	}
-	get raw() {
-		return console;
+	get core() {
+		return this._core;
 	}
 	get isNormal() {
 		return this._mode == modes.NORMAL;
@@ -72,7 +73,7 @@ class Logger {
 		return this;
 	}
 	_do(method, ...args) {
-		console[method](...args);
+		this._core[method](...args);
 		return this;
 	}
 }
@@ -92,8 +93,8 @@ Logger.global = function () {
 	return instance;
 }
 
-Logger.create = function () {
-	return new Logger();
+Logger.create = function (...args) {
+	return new Logger(...args);
 }
 
 export default Logger;
