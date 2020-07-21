@@ -1,4 +1,4 @@
-**conso1e** ( conso[one]e ) is a fully functional `console` wrapper with additional features. Since it wraps every `console` methods, you can simply replace `console` with it.
+**conso1e** ( conso[one]e ) is a fully functional `console` wrapper with additional features. Since it wraps every `console` method, you can simply replace `console` with it.
 
 ## Features
 
@@ -30,6 +30,14 @@ const console = require('conso1e').global();
 
 `global()` always returns the same instance. In other words, it returns **singleton**.  
 The global instance persists across different modules.
+
+**ES module loading** is also supported:
+
+```js
+import Conso1e from 'conso1e';
+const console = Conso1e.create(); // Local instance
+const console = Conso1e.global(); // Global instance
+```
 
 ## Methods
 
