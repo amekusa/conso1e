@@ -10,24 +10,52 @@ const modes = {
  */
 class Logger {
 	constructor(...args) {
-		this._core = args.length ? new console.Console(...args) : console;
+		this._core = args.length ? new console.Console(...args) : null;
 		this._mode = modes.NORMAL;
-		this.clearBuffers();
+		this._buffers = [];
+		this._parent = null;
+		this._options = {};
 	}
 	get core() {
-		return this._core;
+		if (this._core) return this._core;
+		return this._parent ? this._parent.core : Logger.defaultCore;
+	}
+	get parent() {
+		return this._parent;
+	}
+	get options() {
+		return this._options;
 	}
 	get isNormal() {
 		return this._mode == modes.NORMAL;
 	}
 	get isSuppressed() {
-		return this._mode == modes.SILENT;
+		return this._mode != modes.NORMAL;
 	}
 	get isBuffering() {
 		return this._mode == modes.BUFFER;
 	}
 	get hasBuffer() {
 		return this._buffers.length > 0;
+	}
+	/**
+	 * Sets or returns an option
+	 * @param {string} name
+	 * @param {any} value=undefined
+	 */
+	option(name, value = undefined) {
+		if (value === undefined) return this._options[name];
+		this._options[name] = value;
+		return this;
+	}
+	/**
+	 * Creates and returns a subcontext
+	 * @return {Logger}
+	 */
+	subcontext() {
+		let r = new Logger();
+		r._parent = this;
+		return r;
 	}
 	clearBuffers() {
 		this._buffers = [];
@@ -44,49 +72,64 @@ class Logger {
 	}
 	/**
 	 * Buffers a single console output
-	 * @param  {string} method Output method (ex. log, debug, error)
-	 * @param  {any...} args...
+	 * @param {string} method Output method (ex. log, debug, error)
+	 * @param {object} options
+	 * @param {any...} args...
 	 */
-	buffer(method, ...args) {
-		this._buffers.push({ method: method, args: args });
+	buffer(method, options, ...args) {
+		this._buffers.push({ method, options, args });
 		return this;
 	}
 	/**
 	 * Unbuffers the last console output
 	 */
 	unbuffer() {
-		if (!this.hasBuffer) return false;
+		if (!this.hasBuffer) return this;
 		let buf = this._buffers.pop();
-		return this._do(buf.method, ...buf.args);
+		return this.do(buf.method, buf.options, ...buf.args);
 	}
 	/**
 	 * Unbuffers all the console outputs
 	 */
 	flush() {
-		if (!this.hasBuffer) return false;
-		for (let buf of this._buffers) this._do(buf.method, ...buf.args);
+		if (!this.hasBuffer) return this;
+		for (let buf of this._buffers) this.do(buf.method, buf.options, ...buf.args);
 		return this.clearBuffers();
 	}
-	do(method, ...args) {
-		if (this.isNormal) return this._do(method, ...args);
-		if (this.isBuffering) this.buffer(method, ...args);
+	do(method, options, ...args) {
+		let _options = Object.assign(this._options, options);
+		if (this.isNormal || _options.forceOutput) {
+			return this._parent ?
+				this._parent.do(method, _options, ...args) :
+				this._do(method, _options, ...args);
+		} else if (this.isBuffering) this.buffer(method, options, ...args);
 		return this;
 	}
-	_do(method, ...args) {
-		this._core[method](...args);
+	_do(method, options, ...args) {
+		if (options.label && args.length) {
+			if (['log', 'info', 'debug', 'warn', 'error', 'exception'].includes(method)) {
+				if (typeof args[0] == 'string') args[0] = options.label+' '+args[0];
+				else args.unshift(options.label);
+			}
+		}
+		this.core[method](...args);
 		return this;
 	}
 }
+
+// Save the global console as the default core
+Logger.defaultCore = console;
 
 // Wrap all the console methods
 for (let prop in console) {
+	if (typeof console[prop] != 'function') continue;
 	if (Logger.prototype[prop] !== undefined) continue;
 	if (Logger.prototype['_'+prop] !== undefined) continue;
-	if (typeof console[prop] != 'function') continue;
-	Logger.prototype[prop] = function (...args) { return this.do(prop, ...args) };
-	Logger.prototype['_'+prop] = function (...args) { return this._do(prop, ...args) };
+	Logger.prototype[prop] = function (...args) { return this.do(prop, null, ...args) };
+	Logger.prototype['_'+prop] = function (...args) { return this.do(prop, { forceOutput: true }, ...args) };
 }
 
+// Global instance
 let instance;
 Logger.global = function () {
 	if (!instance) instance = new Logger();
