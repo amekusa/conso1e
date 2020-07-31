@@ -76,6 +76,13 @@ describe('Logger:', () => {
 		assert.equal(log.data, msg+'\n');
 		assert.equal(errLog.data, errMsg+'\n');
 	});
+	it('option()', () => {
+		const logger = Logger.create();
+		let r = logger.option('label', '[LABEL]');
+		assert.strictEqual(r, logger);
+		r = logger.option('label');
+		assert.equal(r, '[LABEL]');
+	});
 	it('Suppression', () => {
 		const { log, logger } = setup();
 		logger.log('A');

@@ -44,7 +44,7 @@ class Logger {
 	 * @param {any} value=undefined
 	 */
 	option(name, value = undefined) {
-		if (value === undefined) return this._options[name];
+		if (arguments.length < 2) return this._options[name];
 		this._options[name] = value;
 		return this;
 	}
