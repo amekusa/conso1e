@@ -127,24 +127,24 @@ for (let prop in console) {
 	if (Logger.prototype['_'+prop] !== undefined) continue;
 	Logger.prototype[prop] = function (...args) { return this.do(prop, null, ...args) };
 	Logger.prototype['_'+prop] = function (...args) { return this.do(prop, { forceOutput: true }, ...args) };
-}
+};
 
 // Global instance
 let instance;
 Logger.global = function () {
 	if (!instance) instance = new Logger();
 	return instance;
-}
+};
 
 Logger.create = function (...args) {
 	return new Logger(...args);
-}
+};
 
 Logger.wrap = function (core) {
 	if (typeof core != 'object') throw new Error('Invalid Argument');
 	const r = new Logger();
 	r._core = core;
 	return r;
-}
+};
 
 export default Logger;
