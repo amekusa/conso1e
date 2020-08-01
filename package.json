@@ -11,15 +11,21 @@
     "require": "./bundle.js"
   },
   "scripts": {
-    "devtools": "npm i --no-save rollup mocha npm-watch",
+    "devtools": "npm i --no-save rollup mocha nyc npm-watch",
     "watch": "npm-watch",
-    "test": "mocha",
+    "test": "nyc mocha",
     "build": "rollup src/Logger.js --file bundle.js --format umd --name conso1e",
     "prepublish": "npm run test && npm run build"
   },
   "watch": {
-    "test": ["test.js", "bundle.js"],
-    "build": "src/*.js"
+    "test": {
+      "patterns": ["test.js", "bundle.js"],
+      "inherit": true
+    },
+    "build": {
+      "patterns": "src/*.js",
+      "inherit": true
+    }
   },
   "repository": {
     "type": "git",
