@@ -1,6 +1,6 @@
 {
   "name": "conso1e",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "console wrapper + extra features",
   "files": [
     "src",
@@ -40,7 +40,10 @@
   },
   "watch": {
     "test": {
-      "patterns": ["test.js", "bundle.js"],
+      "patterns": [
+        "test.js",
+        "bundle.js"
+      ],
       "inherit": true
     },
     "build": {
