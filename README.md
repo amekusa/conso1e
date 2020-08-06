@@ -54,10 +54,10 @@ const console = Conso1e.global(); // Global instance
 Starts suppression. During suppression, any method calls don't output to the console.  
 Suppression can be bypassed by prefixing methods with underscore (ex. `console.log()` → `console._log()` ).
 
-- *@param {boolean}* ***buffer***
+- *@param \<boolean>* ***buffer***
 	- If true, suppressed calls will be buffered
 - *@return*
-	- The object itself
+	- Returns `this`
 
 ---
 
@@ -65,10 +65,10 @@ Suppression can be bypassed by prefixing methods with underscore (ex. `console.l
 
 Ends suppression.
 
-- *@param {boolean}* ***flush***
-	- If true, all the buffered calls are sent to the console
+- *@param \<boolean>* ***flush***
+	- If true, all the buffered calls are sent to the console at once
 - *@return*
-	- The object itself
+	- Returns `this`
 
 ---
 
@@ -84,11 +84,73 @@ Clears the current buffers without output
 
 ---
 
+### .option ( name[, value] )
+
+Sets or returns an option value by `name`
+
+- *@param \<string>* ***name***
+	- Name of the option  
+- *@param \<any>* ***value***
+	- New value to set to the option
+- *@return*
+	- Returns `this` if `value` is provided. Otherwise, returns the option value
+
+**Available Options:**
+
+|          name | type    | description                                                  |
+| ------------: | ------- | ------------------------------------------------------------ |
+|       `label` | string  | If any string is set, it appears preceding every console output. |
+| `forceOutput` | boolean | If it is `true`, suppression is completely ignored.          |
+
+```js
+// Example
+let console = require('conso1e').create();
+console.option('label', '[LABEL]');
+console.log('ABC'); // '[LABEL] ABC'
+console.log('DEF'); // '[LABEL] DEF'
+```
+
+
+---
+
+### .subcontext ( )
+
+Creates and returns a **subcontext**. Subcontext is a child conso1e instance that inherits the current state and the core from the parent.
+
+A subcontext defaults to the parent's current state and the option values. However you can override these individually.
+
+```js
+// Example
+let parent = require('conso1e').create();
+let child = parent.subcontext();
+
+parent.option('label', '[LABEL]');
+parent.log('ABC'); // '[LABEL] ABC'
+child.log('123');  // '[LABEL] 123' // label is inherited
+
+child.option('label', '[SUB_LABEL]');
+parent.log('ABC'); // '[LABEL] ABC'
+child.log('123');  // '[SUB_LABEL] 123' // label is overriden
+```
+
+- *@return*
+	- Returns a new subcontext instance
+
+---
+
 ### .core
 
-Real `console` object
+The real `console` object that is wrapped
 
-- *@type* ***object***
+*@type* ***object*** *(read only)
+
+---
+
+### .parent
+
+The parent conso1e instance. It is `null` if `this` is not a subcontext
+
+*@type* ***object \<conso1e>*** *(read only)
 
 ---
 
@@ -96,7 +158,7 @@ Real `console` object
 
 Whether suppression is currently active, or not
 
-- *@type* ***boolean***
+*@type* ***boolean*** *(read only)
 
 ---
 
@@ -104,7 +166,7 @@ Whether suppression is currently active, or not
 
 Whether buffering is currently active, or not
 
-- *@type* ***boolean***
+*@type* ***boolean*** *(read only)
 
 ---
 
@@ -112,7 +174,7 @@ Whether buffering is currently active, or not
 
 Whether the console has any buffered call
 
-- *@type* ***boolean***
+*@type* ***boolean*** *(read only)
 
 ## Advanced Usage
 
@@ -132,8 +194,6 @@ You can also pass a `console` object to `wrap()` :
 const myConsole = new console.Console(debugLog, errorLog);
 const console = require('conso1e').wrap(myConsole);
 ```
-
-
 
 ---
 

@@ -11,14 +11,41 @@
     "require": "./bundle.js"
   },
   "scripts": {
-    "devtools": "npm i --no-save rollup mocha npm-watch",
+    "prepublishOnly": "npm run test && npm run build",
+    "setup": "node setup.js",
     "watch": "npm-watch",
-    "test": "mocha",
-    "build": "rollup src/Logger.js --file bundle.js --format umd --name conso1e",
-    "prepublish": "npm run test && npm run build"
+    "test": "nyc mocha",
+    "build": "rollup src/Logger.js --file bundle.js --sourcemap --format umd --name conso1e",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+  },
+  "_setup": {
+    "deps": {
+      "rollup": {
+        "version": "2.23.0"
+      },
+      "mocha": {
+        "version": "8.1.1"
+      },
+      "nyc": {
+        "version": "15.1.0"
+      },
+      "codecov": {
+        "version": "3.7.2"
+      },
+      "npm-watch": {
+        "version": "0.6.0"
+      }
+    }
   },
   "watch": {
-    "build": "src/*.js"
+    "test": {
+      "patterns": ["test.js", "bundle.js"],
+      "inherit": true
+    },
+    "build": {
+      "patterns": "src/*.js",
+      "inherit": true
+    }
   },
   "repository": {
     "type": "git",
