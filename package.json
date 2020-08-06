@@ -4,7 +4,8 @@
   "description": "console wrapper + extra features",
   "files": [
     "src",
-    "bundle.js"
+    "bundle.js",
+    "bundle.js.map"
   ],
   "exports": {
     "import": "./src/Logger.js",
