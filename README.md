@@ -54,10 +54,10 @@ const console = Conso1e.global(); // Global instance
 Starts suppression. During suppression, any method calls don't output to the console.  
 Suppression can be bypassed by prefixing methods with underscore (ex. `console.log()` → `console._log()` ).
 
-- *@param {boolean}* ***buffer***
+- *@param \<boolean>* ***buffer***
 	- If true, suppressed calls will be buffered
 - *@return*
-	- The object itself
+	- Returns `this`
 
 ---
 
@@ -65,10 +65,10 @@ Suppression can be bypassed by prefixing methods with underscore (ex. `console.l
 
 Ends suppression.
 
-- *@param {boolean}* ***flush***
-	- If true, all the buffered calls are sent to the console
+- *@param \<boolean>* ***flush***
+	- If true, all the buffered calls are sent to the console at once
 - *@return*
-	- The object itself
+	- Returns `this`
 
 ---
 
@@ -84,11 +84,32 @@ Clears the current buffers without output
 
 ---
 
+### .option ( name[, value] )
+
+Sets or returns an option value by `name`
+
+- *@param \<string>* ***name***
+	- Name of the option  
+- *@param \<any>* ***value***
+	- New value to set to the option
+- *@return*
+	- Returns `this` if `value` is provided. Otherwise, returns the option value
+
+**Available Options:**
+
+|          name | type    | description                                                  |
+| ------------: | ------- | ------------------------------------------------------------ |
+|       `label` | string  | If any string is set, it appears preceding every console output. |
+| `forceOutput` | boolean | If it is `true`, suppression is completely ignored.          |
+
+
+---
+
 ### .core
 
 Real `console` object
 
-- *@type* ***object***
+*@type* ***object***
 
 ---
 
@@ -96,7 +117,7 @@ Real `console` object
 
 Whether suppression is currently active, or not
 
-- *@type* ***boolean***
+*@type* ***boolean***
 
 ---
 
@@ -104,7 +125,7 @@ Whether suppression is currently active, or not
 
 Whether buffering is currently active, or not
 
-- *@type* ***boolean***
+*@type* ***boolean***
 
 ---
 
@@ -112,7 +133,7 @@ Whether buffering is currently active, or not
 
 Whether the console has any buffered call
 
-- *@type* ***boolean***
+*@type* ***boolean***
 
 ## Advanced Usage
 
@@ -132,8 +153,6 @@ You can also pass a `console` object to `wrap()` :
 const myConsole = new console.Console(debugLog, errorLog);
 const console = require('conso1e').wrap(myConsole);
 ```
-
-
 
 ---
 
