@@ -20,7 +20,7 @@ class TestStream extends stream.Writable {
 	}
 }
 
-describe('Logger:', () => {
+describe('Logger', () => {
 	let setup = () => {
 		let r = {};
 		r.log = new TestStream();
@@ -65,7 +65,7 @@ describe('Logger:', () => {
 		assert.equal(log.data, msg+'\n');
 		assert.equal(errLog.data, errMsg+'\n');
 	});
-	it('wrap()', () => {
+	it('static :: .wrap()', () => {
 		const log = new TestStream();
 		const msg = 'this is .log output';
 		const errLog = new TestStream();
@@ -76,12 +76,25 @@ describe('Logger:', () => {
 		assert.equal(log.data, msg+'\n');
 		assert.equal(errLog.data, errMsg+'\n');
 	});
-	it('option()', () => {
+	it('.option()', () => {
 		const logger = Logger.create();
 		let r = logger.option('label', '[LABEL]');
 		assert.strictEqual(r, logger);
 		r = logger.option('label');
 		assert.equal(r, '[LABEL]');
+	});
+	it('.options', () => {
+		const logger = Logger.create();
+		logger.option('label', '[LABEL]');
+		assert.deepEqual(logger.options, { label: '[LABEL]' });
+	});
+	it('.unbuffer()', () => {
+		const { log, logger } = setup();
+		logger.buffer('log', { label: '[LABEL1]' }, 'A', 'B');
+		logger.buffer('log', { label: '[LABEL2]' }, 'C', 'D');
+		logger.unbuffer();
+		logger.unbuffer();
+		assert.equal(log.data, '[LABEL2] C D\n[LABEL1] A B\n');
 	});
 	it('Suppression', () => {
 		const { log, logger } = setup();
@@ -126,7 +139,7 @@ describe('Logger:', () => {
 		assert.equal(log.data, '[LABEL] ABC DEF\n[LABEL] { X: 1, Y: 2 } GHI JKL\n');
 	});
 
-	describe('Composition:', () => {
+	describe('Composition', () => {
 		let setup = () => {
 			let r = {};
 			r.log = new TestStream();
@@ -136,6 +149,10 @@ describe('Logger:', () => {
 			return r;
 		};
 
+		it('.parent', () => {
+			const { log, logger, sub } = setup();
+			assert.strictEqual(sub.parent, logger);
+		});
 		it('Core Inheritance', () => {
 			const { log, logger, sub } = setup();
 			assert.ok(falsy(sub._core));
