@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/amekusa/conso1e.svg?branch=master)](https://travis-ci.org/amekusa/conso1e) [![codecov](https://codecov.io/gh/amekusa/conso1e/branch/master/graph/badge.svg)](https://codecov.io/gh/amekusa/conso1e)
-
 **conso1e** ( conso[one]e ) is a fully functional `console` wrapper with additional features. Since it wraps every `console` method, you can simply replace `console` with it.
+
+[![Build Status](https://travis-ci.org/amekusa/conso1e.svg?branch=master)](https://travis-ci.org/amekusa/conso1e) [![codecov](https://codecov.io/gh/amekusa/conso1e/branch/master/graph/badge.svg)](https://codecov.io/gh/amekusa/conso1e)
 
 ## Features
 
