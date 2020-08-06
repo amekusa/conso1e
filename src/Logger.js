@@ -4,6 +4,9 @@ const modes = {
 	BUFFER: 2
 };
 
+// Global instance
+let instance;
+
 /**
  * Stateful Console Logger
  * @author amekusa.com
@@ -115,6 +118,19 @@ class Logger {
 		this.core[method](...args);
 		return this;
 	}
+	static global() {
+		if (!instance) instance = new Logger();
+		return instance;
+	}
+	static create(...args) {
+		return new Logger(...args);
+	}
+	static wrap(core) {
+		if (typeof core != 'object') throw new Error('invalid argument');
+		let r = new Logger();
+		r._core = core;
+		return r;
+	}
 }
 
 // Save the global console as the default core
@@ -127,24 +143,6 @@ for (let prop in console) {
 	if (Logger.prototype['_'+prop] !== undefined) continue;
 	Logger.prototype[prop] = function (...args) { return this.do(prop, null, ...args) };
 	Logger.prototype['_'+prop] = function (...args) { return this.do(prop, { forceOutput: true }, ...args) };
-};
-
-// Global instance
-let instance;
-Logger.global = function () {
-	if (!instance) instance = new Logger();
-	return instance;
-};
-
-Logger.create = function (...args) {
-	return new Logger(...args);
-};
-
-Logger.wrap = function (core) {
-	if (typeof core != 'object') throw new Error('Invalid Argument');
-	const r = new Logger();
-	r._core = core;
-	return r;
 };
 
 export default Logger;
