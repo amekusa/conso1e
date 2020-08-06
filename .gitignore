@@ -1,3 +1,8 @@
 *.map
 /package-lock.json
 /bundle.js
+
+# Coverage
+*.lcov
+/.nyc_output
+/coverage
