@@ -15,7 +15,7 @@
     "setup": "node setup.js",
     "watch": "npm-watch",
     "test": "nyc mocha",
-    "build": "rollup src/Logger.js --file bundle.js --format umd --name conso1e",
+    "build": "rollup src/Logger.js --file bundle.js --sourcemap --format umd --name conso1e",
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "_setup": {
