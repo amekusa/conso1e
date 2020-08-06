@@ -102,14 +102,55 @@ Sets or returns an option value by `name`
 |       `label` | string  | If any string is set, it appears preceding every console output. |
 | `forceOutput` | boolean | If it is `true`, suppression is completely ignored.          |
 
+```js
+// Example
+let console = require('conso1e').create();
+console.option('label', '[LABEL]');
+console.log('ABC'); // '[LABEL] ABC'
+console.log('DEF'); // '[LABEL] DEF'
+```
+
+
+---
+
+### .subcontext ( )
+
+Creates and returns a **subcontext**. Subcontext is a child conso1e instance that inherits the current state and the core from the parent.
+
+A subcontext defaults to the parent's current state and the option values. However you can override these individually.
+
+```js
+// Example
+let parent = require('conso1e').create();
+let child = parent.subcontext();
+
+parent.option('label', '[LABEL]');
+parent.log('ABC'); // '[LABEL] ABC'
+child.log('123');  // '[LABEL] 123' // label is inherited
+
+child.option('label', '[SUB_LABEL]');
+parent.log('ABC'); // '[LABEL] ABC'
+child.log('123');  // '[SUB_LABEL] 123' // label is overriden
+```
+
+- *@return*
+	- Returns a new subcontext instance
 
 ---
 
 ### .core
 
-Real `console` object
+The real `console` object that is wrapped
 
-*@type* ***object***
+*@type* ***object*** *(read only)
+
+---
+
+### .parent
+
+The parent conso1e instance. It is `null` if `this` is not a subcontext
+
+*@type* ***object \<conso1e>*** *(read only)
 
 ---
 
@@ -117,7 +158,7 @@ Real `console` object
 
 Whether suppression is currently active, or not
 
-*@type* ***boolean***
+*@type* ***boolean*** *(read only)
 
 ---
 
@@ -125,7 +166,7 @@ Whether suppression is currently active, or not
 
 Whether buffering is currently active, or not
 
-*@type* ***boolean***
+*@type* ***boolean*** *(read only)
 
 ---
 
@@ -133,7 +174,7 @@ Whether buffering is currently active, or not
 
 Whether the console has any buffered call
 
-*@type* ***boolean***
+*@type* ***boolean*** *(read only)
 
 ## Advanced Usage
 
