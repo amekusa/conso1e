@@ -1,4 +1,4 @@
-const modes = {
+const MODES = {
 	NORMAL: 0,
 	SILENT: 1,
 	BUFFER: 2
@@ -14,7 +14,7 @@ let instance;
 class Logger {
 	constructor(...args) {
 		this._core = args.length ? new console.Console(...args) : null;
-		this._mode = modes.NORMAL;
+		this._mode = MODES.NORMAL;
 		this._buffers = [];
 		this._parent = null;
 		this._options = {};
@@ -30,13 +30,13 @@ class Logger {
 		return this._options;
 	}
 	get isNormal() {
-		return this._mode == modes.NORMAL;
+		return this._mode == MODES.NORMAL;
 	}
 	get isSuppressed() {
-		return this._mode != modes.NORMAL;
+		return this._mode != MODES.NORMAL;
 	}
 	get isBuffering() {
-		return this._mode == modes.BUFFER;
+		return this._mode == MODES.BUFFER;
 	}
 	get hasBuffer() {
 		return this._buffers.length > 0;
@@ -65,11 +65,11 @@ class Logger {
 		return this;
 	}
 	suppress(buffer = false) {
-		this._mode = buffer ? modes.BUFFER : modes.SILENT;
+		this._mode = buffer ? MODES.BUFFER : MODES.SILENT;
 		return this;
 	}
 	unsuppress(flush = true) {
-		this._mode = modes.NORMAL;
+		this._mode = MODES.NORMAL;
 		if (flush) this.flush();
 		return this;
 	}
