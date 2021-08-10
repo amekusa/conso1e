@@ -1,6 +1,6 @@
 **conso1e** ( conso[one]e ) is a fully functional `console` wrapper with additional features. Since it wraps every `console` method, you can simply replace `console` with it.
 
-[![Build Status](https://travis-ci.org/amekusa/conso1e.svg?branch=master)](https://travis-ci.org/amekusa/conso1e) [![codecov](https://codecov.io/gh/amekusa/conso1e/branch/master/graph/badge.svg)](https://codecov.io/gh/amekusa/conso1e) [![npm](https://img.shields.io/badge/dynamic/json?label=npm&query=%24.version&url=https%3A%2F%2Fraw.githubusercontent.com%2Famekusa%2Fconso1e%2Fmaster%2Fpackage.json)](https://www.npmjs.com/package/conso1e)
+[![Build Status](https://travis-ci.org/amekusa/conso1e.svg?branch=master)](https://travis-ci.org/amekusa/conso1e) [![codecov](https://codecov.io/gh/amekusa/conso1e/branch/master/graph/badge.svg)](https://codecov.io/gh/amekusa/conso1e) [![npm](https://img.shields.io/badge/dynamic/json?label=npm%0Apackage&query=%24%5B%27dist-tags%27%5D%5B%27latest%27%5D&url=https%3A%2F%2Fregistry.npmjs.org%2Fconso1e%2F)](https://www.npmjs.com/package/conso1e)
 
 ## Features
 
