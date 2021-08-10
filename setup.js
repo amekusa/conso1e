@@ -1,7 +1,7 @@
 /*!
  * Setup script for development
  * @author amekusa (https://amekusa.com)
- * @version 1.3.0
+ * @version 1.3.1
  * @update 2021-08-10
  */
 
@@ -67,7 +67,7 @@ async function resolveDeps(deps) {
 				continue;
 			}
 			if (i in exist && semver.satisfies(exist[i].version, I.version)) {
-				console.log(`The sufficent version of '${i}' already exists.`, `\n - Existent: ${exist[i].version}`, `\n - Required: ${I.version}`);
+				console.log(`A sufficent version of '${i}' already exists.`, `\n - Existent: ${exist[i].version}`, `\n - Required: ${I.version}`);
 				continue;
 			}
 			installs.push(i+'@'+I.version);
@@ -79,13 +79,13 @@ async function resolveDeps(deps) {
 
 		// install the dependencies
 		console.log(`Installing ${installs.join(', ')} ...`);
-		return run(`npm i --no-save${OPTS.dryRun} ${installs.join(' ')}`).then(() => {
-			console.log(`Installation complete.`);
-			console.log(`All the dependencies have been resolved.`);
-		}, e => {
-			console.error(`Installation failed due to error.`);
-			throw e;
-		});
+		await run(`npm i --no-save${OPTS.dryRun} ${installs.join(' ')}`);
+		console.log(`Installation complete.`);
+		console.log(`All the dependencies have been resolved.`);
+
+	} catch (e) {
+		console.error(e);
+		throw `Failed to resolve the dependencies.`;
 
 	} finally {
 		console.groupEnd();
@@ -111,7 +111,7 @@ async function main() {
 	try {
 		// fetch the configuration
 		let config = pkg._setup;
-		if (!config) throw new Error(`configuration missing`);
+		if (!config) throw `Configuration missing.`;
 
 		await resolveDeps(config.deps);
 		console.log(`Setup complete.`);
