@@ -12,30 +12,22 @@
     "require": "./bundle.js"
   },
   "scripts": {
-    "prepublishOnly": "npm run test && npm run build",
+    "prepublishOnly": "npm run clean && npm run build && npm run test",
     "setup": "node setup.js",
+    "setup:dry": "node setup.js --dry-run",
     "watch": "npm-watch",
-    "test": "nyc mocha",
-    "build": "rollup src/Logger.js --file bundle.js --sourcemap --format umd --name conso1e",
-    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+    "clean": "rm -f bundle.js bundle.js.map && find . -name '.DS_Store' -not -path '*/node_modules/*' | xargs rm -r",
+    "build": "rollup -c",
+    "test": "c8 mocha --enable-source-maps",
+    "codecov": "c8 report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "_setup": {
     "deps": {
-      "rollup": {
-        "version": "2.23.0"
-      },
-      "mocha": {
-        "version": "8.1.1"
-      },
-      "nyc": {
-        "version": "15.1.0"
-      },
-      "codecov": {
-        "version": "3.7.2"
-      },
-      "npm-watch": {
-        "version": "0.6.0"
-      }
+      "npm-watch": "^0.11.0",
+      "rollup": "^2.56.2",
+      "c8": "^7.8.0",
+      "codecov": "^3.8.3",
+      "mocha": "^9.0.3"
     }
   },
   "watch": {
