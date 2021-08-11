@@ -1,7 +1,7 @@
 /*!
  * Setup script for development
  * @author amekusa (https://amekusa.com)
- * @version 1.3.1
+ * @version 1.3.2
  * @update 2021-08-10
  */
 
@@ -9,14 +9,14 @@ const process = require('process');
 const cp = require('child_process');
 const pkg = require('./package.json');
 
-const VER = '1.3.0';
+const VER = '1.3.2';
 const OPTS = {
 	dryRun: ''
 };
 
 function run(cmd) {
 	return new Promise((resolve, reject) => {
-		console.log(`>>`, cmd);
+		console.log(` >`, cmd);
 		cp.exec(cmd, {}, (err, out) => {
 			return err ? reject(err) : resolve(out);
 		});
@@ -36,7 +36,7 @@ async function resolveDeps(deps) {
 		await run(`npm cache verify`);
 
 		// populate existent packages
-		console.group(`Populating existent packages ...`);
+		console.log(`Populating existent packages ...`);
 		let l, g;
 		await Promise.all([
 			// locals
@@ -50,7 +50,6 @@ async function resolveDeps(deps) {
 		]);
 		let exist = Object.assign(g, l);
 		console.log(`Existent dependencies:`, exist);
-		console.groupEnd();
 
 		// install semver
 		console.log(`Installing semver ...`);
